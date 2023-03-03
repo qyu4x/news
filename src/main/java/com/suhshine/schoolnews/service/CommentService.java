@@ -8,6 +8,6 @@ import java.util.List;
 public interface CommentService {
 
     CommentResponse save(String id);
-    List<Comment> findById(String id);
+    List<Comment> findByNewsId(String id);
     void deleteById(String id);
 }
