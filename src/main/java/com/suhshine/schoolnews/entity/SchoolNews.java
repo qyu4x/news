@@ -26,7 +26,10 @@ public class SchoolNews {
     private String title;
 
     @NotBlank
-    @Lob
+    private String imageUrl;
+
+    @NotBlank
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @NotBlank

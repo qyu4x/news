@@ -34,8 +34,8 @@ public class Comment {
     @Size(max = 50)
     private String email;
 
-    @Lob
     @NotBlank
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
