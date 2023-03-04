@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SchoolServiceImpl implements SchoolNewsService {
+public class SchoolNewsServiceImpl implements SchoolNewsService {
 
-    private static final Logger log = LoggerFactory.getLogger(SchoolServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(SchoolNewsServiceImpl.class);
 
 
     private SchoolNewsRepository schoolNewsRepository;
 
-    public SchoolServiceImpl(SchoolNewsRepository schoolNewsRepository) {
+    public SchoolNewsServiceImpl(SchoolNewsRepository schoolNewsRepository) {
         this.schoolNewsRepository = schoolNewsRepository;
     }
 
