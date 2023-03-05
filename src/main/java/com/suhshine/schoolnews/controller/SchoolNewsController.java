@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/v1/news")
 public class SchoolNewsController {
@@ -35,6 +37,20 @@ public class SchoolNewsController {
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(webResponse);
+
+    }
+
+    @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<List<SchoolNewsResponse>>> getAll() {
+        log.info("Get all data school news");
+        List<SchoolNewsResponse> schoolNewsResponses = schoolNewsService.getAll();
+        WebResponse<List<SchoolNewsResponse> > webResponse = new WebResponse<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.getReasonPhrase(),
+                schoolNewsResponses
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(webResponse);
 
     }
 }

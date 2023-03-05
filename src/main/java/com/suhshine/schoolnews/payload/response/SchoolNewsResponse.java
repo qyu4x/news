@@ -2,11 +2,9 @@ package com.suhshine.schoolnews.payload.response;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +19,8 @@ public class SchoolNewsResponse {
     private String content;
 
     private String author;
+
+    private List<CommentResponse> comments;
 
     private LocalDate uploadDate;
 

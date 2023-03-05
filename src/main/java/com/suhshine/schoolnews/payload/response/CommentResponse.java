@@ -1,8 +1,13 @@
 package com.suhshine.schoolnews.payload.response;
 
-import java.sql.Time;
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+@Getter
+@Setter
 public class CommentResponse {
 
     private String id;
@@ -13,8 +18,8 @@ public class CommentResponse {
 
     private String content;
 
-    private Date uploadDate;
+    private LocalDate uploadDate;
 
-    private Time uploadHours;
+    private LocalTime uploadHours;
 
 }
