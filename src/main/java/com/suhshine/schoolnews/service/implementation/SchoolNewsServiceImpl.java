@@ -63,7 +63,7 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
     }
 
     @Override
-    public List<SchoolNewsResponse> getAll() {
+    public List<SchoolNewsResponse> findAll() {
         log.info("Get all data school news");
         List<SchoolNews> schoolNews = schoolNewsRepository.findAll();
 

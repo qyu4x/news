@@ -41,9 +41,9 @@ public class SchoolNewsController {
     }
 
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WebResponse<List<SchoolNewsResponse>>> getAll() {
+    public ResponseEntity<WebResponse<List<SchoolNewsResponse>>> findAll() {
         log.info("Get all data school news");
-        List<SchoolNewsResponse> schoolNewsResponses = schoolNewsService.getAll();
+        List<SchoolNewsResponse> schoolNewsResponses = schoolNewsService.findAll();
         WebResponse<List<SchoolNewsResponse> > webResponse = new WebResponse<>(
                 HttpStatus.OK.value(),
                 HttpStatus.OK.getReasonPhrase(),

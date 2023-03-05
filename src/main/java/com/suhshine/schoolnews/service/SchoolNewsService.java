@@ -8,7 +8,7 @@ import java.util.List;
 public interface SchoolNewsService {
 
     SchoolNewsResponse save(SchoolNewsRequest schoolNewsRequest);
-    List<SchoolNewsResponse> getAll();
+    List<SchoolNewsResponse> findAll();
     SchoolNewsResponse findById(String id);
     void deleteById(String id);
 
