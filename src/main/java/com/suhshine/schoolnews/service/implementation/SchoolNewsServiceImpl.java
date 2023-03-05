@@ -2,6 +2,7 @@ package com.suhshine.schoolnews.service.implementation;
 
 import com.suhshine.schoolnews.entity.Comment;
 import com.suhshine.schoolnews.entity.SchoolNews;
+import com.suhshine.schoolnews.exception.DataNotFoundException;
 import com.suhshine.schoolnews.payload.request.SchoolNewsRequest;
 import com.suhshine.schoolnews.payload.response.CommentResponse;
 import com.suhshine.schoolnews.payload.response.SchoolNewsResponse;
@@ -108,7 +109,40 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
 
     @Override
     public SchoolNewsResponse findById(String id) {
-        return null;
+        SchoolNewsResponse schoolNewsResponse = new SchoolNewsResponse();
+        SchoolNews schoolNews = schoolNewsRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Data not found"));
+
+        log.info("Get data comment of news by id");
+        List<Comment> comments = commentRepository.findAllBySchoolNewsId(schoolNews.getId())
+                .orElse(Collections.emptyList());
+
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        comments.stream().forEach(comment -> {
+            CommentResponse commentResponse = new CommentResponse();
+
+            commentResponse.setId(comment.getId());
+            commentResponse.setFullName(comment.getFullName());
+            commentResponse.setEmail(comment.getEmail());
+            commentResponse.setContent(comment.getContent());
+            commentResponse.setUploadDate(comment.getCreatedAt().toLocalDate());
+            commentResponse.setUploadHours(comment.getCreatedAt().toLocalTime());
+
+            commentResponses.add(commentResponse);
+        });
+        log.info("Successfully get all data comment from news");
+
+        schoolNewsResponse.setId(schoolNews.getId());
+        schoolNewsResponse.setTitle(schoolNews.getTitle());
+        schoolNewsResponse.setAuthor(schoolNews.getAuthor());
+        schoolNewsResponse.setContent(schoolNews.getContent());
+        schoolNewsResponse.setImageUrl(schoolNews.getImageUrl());
+        schoolNewsResponse.setComments(commentResponses);
+        schoolNewsResponse.setUploadDate(schoolNews.getCreatedAt().toLocalDate());
+        schoolNewsResponse.setUploadHours(schoolNews.getCreatedAt().toLocalTime());
+
+        log.info("Successfully get data school news by id");
+        return schoolNewsResponse;
     }
 
     @Override

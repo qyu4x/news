@@ -53,4 +53,18 @@ public class SchoolNewsController {
         return ResponseEntity.status(HttpStatus.OK).body(webResponse);
 
     }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<SchoolNewsResponse>> findById(@PathVariable("id") String id) {
+        log.info("Get data school news by id");
+        SchoolNewsResponse schoolNewsResponse = schoolNewsService.findById(id);
+        WebResponse<SchoolNewsResponse> webResponse = new WebResponse<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.getReasonPhrase(),
+                schoolNewsResponse
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(webResponse);
+
+    }
 }
