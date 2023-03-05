@@ -109,6 +109,7 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
 
     @Override
     public SchoolNewsResponse findById(String id) {
+        log.info("Get data school news by id");
         SchoolNewsResponse schoolNewsResponse = new SchoolNewsResponse();
         SchoolNews schoolNews = schoolNewsRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Data not found"));
@@ -147,6 +148,12 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
 
     @Override
     public void deleteById(String id) {
+        log.info("Delete data school news by id");
+        SchoolNews schoolNews = schoolNewsRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Data not found"));
+
+        schoolNewsRepository.deleteById(schoolNews.getId());
+        log.info("Successfully delete data school news by id");
 
     }
 }

@@ -67,4 +67,18 @@ public class SchoolNewsController {
         return ResponseEntity.status(HttpStatus.OK).body(webResponse);
 
     }
+
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<String>> deleteById(@PathVariable("id") String id) {
+        log.info("Delete data school news by id");
+        schoolNewsService.deleteById(id);
+        WebResponse<String> webResponse = new WebResponse<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.getReasonPhrase(),
+                String.format("successfully delete school news data with id %s", id)
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(webResponse);
+
+    }
 }
