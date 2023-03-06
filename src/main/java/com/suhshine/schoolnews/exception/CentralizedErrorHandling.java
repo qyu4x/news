@@ -40,10 +40,10 @@ public class CentralizedErrorHandling {
     @ExceptionHandler(DataAlreadyExistException.class)
     public ResponseEntity<ErrorResponse<String>> handleDuplicateData(DataAlreadyExistException exception) {
         ErrorResponse errorResponse = new ErrorResponse<>(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
                 exception.getMessage()
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 }
