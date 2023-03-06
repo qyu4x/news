@@ -15,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/v1/comment")
 public class CommentNewsController {
@@ -38,6 +40,34 @@ public class CommentNewsController {
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(webResponse);
+
+    }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<List<CommentResponse>>> findAllById(@PathVariable("id") String id) {
+        log.info("Get all data comment with news id : {}", id);
+        List<CommentResponse> commentResponses = commentService.findByNewsId(id);
+        WebResponse<List<CommentResponse>> webResponse = new WebResponse<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.getReasonPhrase(),
+                commentResponses
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(webResponse);
+
+    }
+
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<String>> delete(@PathVariable("id") String id) {
+        log.info("Delete comment data from the database with comment id : {}", id);
+        commentService.deleteById(id);
+        WebResponse<String> webResponse = new WebResponse<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.getReasonPhrase(),
+                String.format("successfully deleted the comment data from the database with id : %s", id)
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(webResponse);
 
     }
 }

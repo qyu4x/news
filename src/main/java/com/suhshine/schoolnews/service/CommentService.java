@@ -9,6 +9,6 @@ import java.util.List;
 public interface CommentService {
 
     CommentResponse save(String id, CommentRequest commentRequest);
-    List<Comment> findByNewsId(String id);
+    List<CommentResponse> findByNewsId(String id);
     void deleteById(String id);
 }

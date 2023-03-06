@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,12 +66,39 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findByNewsId(String id) {
-        return null;
+    public List<CommentResponse> findByNewsId(String id) {
+        log.info("Get all comment from database");
+
+        schoolNewsRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("School news data not found"));
+
+        List<Comment> comments = commentRepository.findAllBySchoolNewsId(id)
+                .orElse(Collections.emptyList());
+
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        comments.stream().forEach(comment -> {
+            CommentResponse commentResponse = new CommentResponse();
+
+            commentResponse.setId(comment.getId());
+            commentResponse.setEmail(comment.getEmail());
+            commentResponse.setFullName(comment.getFullName());
+            commentResponse.setContent(comment.getContent());
+            commentResponse.setUploadDate(comment.getCreatedAt().toLocalDate());
+            commentResponse.setUploadHours(comment.getCreatedAt().toLocalTime());
+
+            commentResponses.add(commentResponse);
+        });
+        log.info("Successfully got all the comments list");
+
+        return commentResponses;
     }
 
     @Override
     public void deleteById(String id) {
-
+        log.info("Delete comment data from the database");
+        commentRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Comment data not found"));
+        commentRepository.deleteById(id);
+        log.info("Successfully deleted the comment data from the database");
     }
 }
