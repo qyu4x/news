@@ -1,6 +1,7 @@
 package com.suhshine.schoolnews.controller;
 
 import com.suhshine.schoolnews.payload.request.SchoolNewsRequest;
+import com.suhshine.schoolnews.payload.request.SchoolNewsUpdateRequest;
 import com.suhshine.schoolnews.payload.response.SchoolNewsResponse;
 import com.suhshine.schoolnews.payload.response.WebResponse;
 import com.suhshine.schoolnews.service.SchoolNewsService;
@@ -76,6 +77,20 @@ public class SchoolNewsController {
                 HttpStatus.OK.value(),
                 HttpStatus.OK.getReasonPhrase(),
                 String.format("successfully delete school news data with id %s", id)
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(webResponse);
+
+    }
+
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<SchoolNewsResponse>> updateById(@PathVariable("id") String id, @RequestBody SchoolNewsUpdateRequest schoolNewsUpdateRequest) {
+        log.info("Update data school news by id");
+        SchoolNewsResponse schoolNewsResponse = schoolNewsService.updateById(id, schoolNewsUpdateRequest);
+        WebResponse<SchoolNewsResponse> webResponse = new WebResponse<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.getReasonPhrase(),
+                schoolNewsResponse
         );
 
         return ResponseEntity.status(HttpStatus.OK).body(webResponse);

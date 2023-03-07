@@ -4,6 +4,7 @@ import com.suhshine.schoolnews.entity.Comment;
 import com.suhshine.schoolnews.entity.SchoolNews;
 import com.suhshine.schoolnews.exception.DataNotFoundException;
 import com.suhshine.schoolnews.payload.request.SchoolNewsRequest;
+import com.suhshine.schoolnews.payload.request.SchoolNewsUpdateRequest;
 import com.suhshine.schoolnews.payload.response.CommentResponse;
 import com.suhshine.schoolnews.payload.response.SchoolNewsResponse;
 import com.suhshine.schoolnews.repository.CommentRepository;
@@ -165,5 +166,33 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
         schoolNewsRepository.deleteById(schoolNews.getId());
         log.info("Successfully delete data school news by id");
 
+    }
+
+    @Override
+    public SchoolNewsResponse updateById(String id,  SchoolNewsUpdateRequest schoolNewsUpdateRequest) {
+        log.info("Update news data from database");
+        SchoolNews schoolNews = schoolNewsRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Data not found"));
+
+        schoolNews.setTitle(schoolNewsUpdateRequest.getTitle());
+        schoolNews.setContent(schoolNewsUpdateRequest.getContent());
+        schoolNews.setImageUrl(schoolNewsUpdateRequest.getImageUrl());
+        schoolNews.setUpdatedAt(OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.of("+07:00")).toLocalDateTime());
+
+        schoolNewsRepository.save(schoolNews);
+
+        SchoolNewsResponse schoolNewsResponse = new SchoolNewsResponse();
+        schoolNewsResponse.setId(schoolNews.getId());
+        schoolNewsResponse.setTitle(schoolNews.getTitle());
+        schoolNewsResponse.setImageUrl(schoolNews.getImageUrl());
+        schoolNewsResponse.setContent(schoolNews.getContent());
+        schoolNewsResponse.setAuthor(schoolNews.getAuthor());
+        schoolNewsResponse.setCounter(schoolNews.getCounter());
+        schoolNewsResponse.setUploadDate(schoolNews.getCreatedAt().toLocalDate());
+        schoolNewsResponse.setUploadHours(schoolNews.getCreatedAt().toLocalTime());
+
+        log.info("Successfully update news data to the database");
+
+        return schoolNewsResponse;
     }
 }

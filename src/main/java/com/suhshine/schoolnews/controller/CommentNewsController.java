@@ -2,7 +2,9 @@ package com.suhshine.schoolnews.controller;
 
 import com.suhshine.schoolnews.entity.Comment;
 import com.suhshine.schoolnews.payload.request.CommentRequest;
+import com.suhshine.schoolnews.payload.request.CommentUpdateRequest;
 import com.suhshine.schoolnews.payload.request.SchoolNewsRequest;
+import com.suhshine.schoolnews.payload.request.SchoolNewsUpdateRequest;
 import com.suhshine.schoolnews.payload.response.CommentResponse;
 import com.suhshine.schoolnews.payload.response.SchoolNewsResponse;
 import com.suhshine.schoolnews.payload.response.WebResponse;
@@ -65,6 +67,20 @@ public class CommentNewsController {
                 HttpStatus.OK.value(),
                 HttpStatus.OK.getReasonPhrase(),
                 String.format("successfully deleted the comment data from the database with id : %s", id)
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(webResponse);
+
+    }
+
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<CommentResponse>> updateById(@PathVariable("id") String id, @RequestBody CommentUpdateRequest commentUpdateRequest) {
+        log.info("Update data comment by id");
+        CommentResponse commentResponse = commentService.updateById(id, commentUpdateRequest);
+        WebResponse<CommentResponse> webResponse = new WebResponse<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.getReasonPhrase(),
+                commentResponse
         );
 
         return ResponseEntity.status(HttpStatus.OK).body(webResponse);

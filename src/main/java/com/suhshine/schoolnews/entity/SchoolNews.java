@@ -42,4 +42,7 @@ public class SchoolNews {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
+
+
 }

@@ -4,6 +4,7 @@ import com.suhshine.schoolnews.entity.Comment;
 import com.suhshine.schoolnews.entity.SchoolNews;
 import com.suhshine.schoolnews.exception.DataNotFoundException;
 import com.suhshine.schoolnews.payload.request.CommentRequest;
+import com.suhshine.schoolnews.payload.request.CommentUpdateRequest;
 import com.suhshine.schoolnews.payload.response.CommentResponse;
 import com.suhshine.schoolnews.repository.CommentRepository;
 import com.suhshine.schoolnews.repository.SchoolNewsRepository;
@@ -53,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setCreatedAt(OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.of("+07:00")).toLocalDateTime());
 
         commentRepository.save(comment);
-        log.info("Successfully save news data to the database");
+        log.info("Successfully save comment data to the database");
 
         CommentResponse commentResponse = new CommentResponse();
         commentResponse.setId(comment.getId());
@@ -103,5 +104,30 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new DataNotFoundException("Comment data not found"));
         commentRepository.deleteById(id);
         log.info("Successfully deleted the comment data from the database");
+    }
+
+    @Override
+    public CommentResponse updateById(String id, CommentUpdateRequest commentUpdateRequest) {
+        log.info("Update comment data from database");
+
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Comment data not found"));
+
+        comment.setContent(commentUpdateRequest.getContent());
+        comment.setUpdatedAt(OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.of("+07:00")).toLocalDateTime());
+
+        commentRepository.save(comment);
+        log.info("Successfully update comment data");
+
+        CommentResponse commentResponse = new CommentResponse();
+        commentResponse.setId(comment.getId());
+        commentResponse.setEmail(comment.getEmail());
+        commentResponse.setFullName(comment.getFullName());
+        commentResponse.setContent(comment.getContent());
+        commentResponse.setUrl(comment.getUrl());
+        commentResponse.setUploadDate(comment.getCreatedAt().toLocalDate());
+        commentResponse.setUploadHours(comment.getCreatedAt().toLocalTime());
+
+        return commentResponse;
     }
 }
