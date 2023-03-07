@@ -20,6 +20,8 @@ public class SchoolNewsResponse {
 
     private String author;
 
+    private Integer counter;
+
     private List<CommentResponse> comments;
 
     private LocalDate uploadDate;

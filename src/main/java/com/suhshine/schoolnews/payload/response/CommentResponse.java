@@ -18,6 +18,8 @@ public class CommentResponse {
 
     private String content;
 
+    private String url;
+
     private LocalDate uploadDate;
 
     private LocalTime uploadHours;

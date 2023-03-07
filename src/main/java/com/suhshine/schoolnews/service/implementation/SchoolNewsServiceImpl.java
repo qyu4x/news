@@ -56,6 +56,7 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
         schoolNewsResponse.setImageUrl(schoolNews.getImageUrl());
         schoolNewsResponse.setContent(schoolNews.getContent());
         schoolNewsResponse.setAuthor(schoolNews.getAuthor());
+        schoolNewsResponse.setCounter(0);
         schoolNewsResponse.setUploadDate(schoolNews.getCreatedAt().toLocalDate());
         schoolNewsResponse.setUploadHours(schoolNews.getCreatedAt().toLocalTime());
 
@@ -84,6 +85,7 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
                 commentResponse.setFullName(comment.getFullName());
                 commentResponse.setEmail(comment.getEmail());
                 commentResponse.setContent(comment.getContent());
+                commentResponse.setUrl(comment.getUrl());
                 commentResponse.setUploadDate(comment.getCreatedAt().toLocalDate());
                 commentResponse.setUploadHours(comment.getCreatedAt().toLocalTime());
 
@@ -96,6 +98,7 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
             schoolNewsResponse.setAuthor(news.getAuthor());
             schoolNewsResponse.setContent(news.getContent());
             schoolNewsResponse.setImageUrl(news.getImageUrl());
+            schoolNewsResponse.setCounter(news.getCounter());
             schoolNewsResponse.setComments(commentResponses);
             schoolNewsResponse.setUploadDate(news.getCreatedAt().toLocalDate());
             schoolNewsResponse.setUploadHours(news.getCreatedAt().toLocalTime());
@@ -114,6 +117,11 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
         SchoolNews schoolNews = schoolNewsRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Data not found"));
 
+        log.info("Update counter");
+        schoolNews.setCounter(schoolNews.getCounter() + 1);
+        schoolNewsRepository.save(schoolNews);
+        log.info("Updated counter to {} ", schoolNews.getCounter());
+
         log.info("Get data comment of news by id");
         List<Comment> comments = commentRepository.findAllBySchoolNewsId(schoolNews.getId())
                 .orElse(Collections.emptyList());
@@ -126,6 +134,7 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
             commentResponse.setFullName(comment.getFullName());
             commentResponse.setEmail(comment.getEmail());
             commentResponse.setContent(comment.getContent());
+            commentResponse.setUrl(comment.getUrl());
             commentResponse.setUploadDate(comment.getCreatedAt().toLocalDate());
             commentResponse.setUploadHours(comment.getCreatedAt().toLocalTime());
 
@@ -138,6 +147,7 @@ public class SchoolNewsServiceImpl implements SchoolNewsService {
         schoolNewsResponse.setAuthor(schoolNews.getAuthor());
         schoolNewsResponse.setContent(schoolNews.getContent());
         schoolNewsResponse.setImageUrl(schoolNews.getImageUrl());
+        schoolNewsResponse.setCounter(schoolNews.getCounter());
         schoolNewsResponse.setComments(commentResponses);
         schoolNewsResponse.setUploadDate(schoolNews.getCreatedAt().toLocalDate());
         schoolNewsResponse.setUploadHours(schoolNews.getCreatedAt().toLocalTime());

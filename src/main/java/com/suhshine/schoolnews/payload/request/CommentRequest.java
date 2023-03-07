@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
@@ -23,5 +24,7 @@ public class CommentRequest {
     @NotBlank(message = "comment can't be empty")
     private String content;
 
+    @URL(message = "url must be a link")
+    private String url;
 
 }

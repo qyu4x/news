@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 
@@ -34,6 +35,9 @@ public class Comment {
     @NotBlank
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @URL
+    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_school_news_id")

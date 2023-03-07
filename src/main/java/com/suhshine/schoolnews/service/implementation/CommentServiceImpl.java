@@ -48,6 +48,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setEmail(commentRequest.getEmail());
         comment.setFullName(commentRequest.getFullName());
         comment.setContent(commentRequest.getContent());
+        comment.setUrl(commentRequest.getUrl());
         comment.setSchoolNews(schoolNews);
         comment.setCreatedAt(OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.of("+07:00")).toLocalDateTime());
 
@@ -59,6 +60,7 @@ public class CommentServiceImpl implements CommentService {
         commentResponse.setEmail(comment.getEmail());
         commentResponse.setFullName(comment.getFullName());
         commentResponse.setContent(comment.getContent());
+        commentResponse.setUrl(comment.getUrl());
         commentResponse.setUploadDate(comment.getCreatedAt().toLocalDate());
         commentResponse.setUploadHours(comment.getCreatedAt().toLocalTime());
 
@@ -83,6 +85,7 @@ public class CommentServiceImpl implements CommentService {
             commentResponse.setEmail(comment.getEmail());
             commentResponse.setFullName(comment.getFullName());
             commentResponse.setContent(comment.getContent());
+            commentResponse.setUrl(comment.getUrl());
             commentResponse.setUploadDate(comment.getCreatedAt().toLocalDate());
             commentResponse.setUploadHours(comment.getCreatedAt().toLocalTime());
 
